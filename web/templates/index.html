@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <title>Capital Gainer</title>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="#">Capital Gainer</a>
+            </div>
+        </nav>
+    </header>
+    <div class="mb-3"></div>
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h3>Gain Capital</h3>
+                    <small class="form-text text-muted mb-3">Fill the form to gain capitals in the club.</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <form>
+                        <div class="form-group">
+                            <label for="txtName">Name</label>
+                            <input type="text" name="name" id="txtName" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="txtFavClub">Favourite Football Club</label>
+                            <input type="text" name="clubName" id="txtFavClub" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="txtFavPlayer">Favourite Football Player</label>
+                            <input type="text" name="playerName" id="txtFavPlayer" class="form-control" />
+                        </div>
+                        <button class="btn btn-primary" id="btnGainCapital">Gain Capitals</button>
+                    </form>
+                </div>
+                <div class="offset-md-1 col-md-5">
+                    <div class="card mb-3">
+                        <div class="card-header bg-dark text-light">
+                            <span>Capitals Gained</span>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title">Last Capital Gained: </h6>
+                            <div class="card-text">
+                                <h6 id="lastGainedReqId"></h6>
+                                <p id="lastGained" class="font-italic">None</p>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            Gained so far : <span id="capitalGained">0</span>
+                        </div>
+                    </div>
+                    <div class="card mb-3 pb-6">
+                        <div class="card-header bg-dark text-light">
+                            <span>Latest Transactions</span>
+                        </div>
+                        <div class="card-body">
+                            <div id="latestTransactions">None</div>
+                        </div>
+                        <div class="card-footer">
+                            Transactions so far : <span id="countTransactions">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-5"></div>
+    <footer>
+        <nav class="navbar fixed-bottom navbar-light bg-light mt-4">
+            <div class="container">
+                <span>Made with &hearts; by Roopak A N</span>
+            </div>
+        </nav>
+    </footer>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+    <!-- JS of the App -->
+    <script type="text/javascript" src="static/xml2json.js"></script>
+    <script type="text/javascript" src="static/app.js"></script>
+</body>
+
+</html>
