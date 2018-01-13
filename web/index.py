@@ -2,7 +2,7 @@
 Index file of web service
 """
 import os
-import requests
+import pusher
 
 from flask import Flask
 from flask import render_template
@@ -12,22 +12,29 @@ from flask import jsonify
 app = Flask(__name__)
 db = {}
 
+pusher_client = pusher.Pusher(
+    app_id='457388',
+    key='8a86350fabc94179ab01',
+    secret='d700469e36abeabce077',
+    cluster='ap2',
+    ssl=True
+)
+
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
 
-@app.route("/gain-capital/", methods=["POST"])
-def gain_capital():
-    req_json = request.get_json()
-    resp = requests.post(
-        "http://127.0.0.1:8002/gain-capital/", json=req_json)
-    return jsonify(resp.json()), resp.status_code
+@app.route("/capital/<string:request_id>/", methods=['GET', 'POST'])
+def capital(request_id):
+    if request.method == 'GET':
+        return get_captial(request_id)
+    else:
+        return post_capital(request_id)
 
 
-@app.route("/capital/<string:request_id>/", methods=['GET'])
-def get_capital(request_id):
+def get_captial(request_id):
     capital = db.get(request_id, None)
     return jsonify(
         request_id=request_id,
@@ -35,12 +42,19 @@ def get_capital(request_id):
         capital=capital), 200
 
 
-@app.route("/post_capital/", methods=['POST'])
-def post_capital():
+def post_capital(request_id):
     capital = request.get_json()['capital']
     request_id = request.get_json()['request_id']
     db[request_id] = capital
+    push_response(request_id)
     return "", 204
+
+
+def push_response(request_id):
+    if request_id in db:
+        pusher_client.trigger(
+            'cp-gain', 'cp-gain-response',
+            {'request_id': request_id, 'capital': db.get(request_id)})
 
 
 if __name__ == '__main__':

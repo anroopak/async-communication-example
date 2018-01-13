@@ -1,3 +1,11 @@
+Pusher.logToConsole = true;
+
+var pusher = new Pusher('8a86350fabc94179ab01', {
+    cluster: 'ap2',
+    encrypted: true
+});
+
+
 $(document).ready(function() {
     var totalGained = 0;
     var countTransactions = 0;
@@ -11,6 +19,11 @@ $(document).ready(function() {
     var maxLatestTransactions = 3;
 
     var timer = null;
+
+    var channel = pusher.subscribe('cp-gain');
+    channel.bind('cp-gain-response', function(data) {
+        updateResponseHTML(data.request_id, data.capital);
+    });
 
     function getInputs() {
         return {
@@ -64,10 +77,7 @@ $(document).ready(function() {
     function updateResponseSuccess(result) {
         var requestId = result.request_id;
         if (result.available === true) {
-            totalGained++;
-            $("#lastGainedReqId").html(requestId);
-            $("#lastGained").html(JSON.stringify(result.capital));
-            $("#capitalGained").html(totalGained);
+            updateResponseHTML(requestId, result.capital);
             if (pendingRequests.length === 0 && timer != null) {
                 clearTimeout(timer);
                 timer = null;
@@ -77,6 +87,13 @@ $(document).ready(function() {
             pendingRequests.push(requestId)
         }
 
+    }
+
+    function updateResponseHTML(requestId, capital) {
+        totalGained ++;
+        $("#lastGainedReqId").html(requestId);
+        $("#lastGained").html(JSON.stringify(capital));
+        $("#capitalGained").html(totalGained);
     }
 
     function formSubmitSuccess(result) {
@@ -102,14 +119,14 @@ $(document).ready(function() {
         $("#countTransactions").html(countTransactions);
         $("#btnGainCapital").prop('disabled', false);
 
-        console.log(timer);
-        if (timer == null) {
-            // Using poll
-            // TODO: replace this task.
-            // use socket connection / tools like Pusher.com
-            console.log("setting timer");
-            timer = setTimeout(updateResponses, 200);
-        }
+        // console.log(timer);
+        // if (timer == null) {
+        //     // Using poll
+        //     // TODO: replace this task.
+        //     // use socket connection / tools like Pusher.com
+        //     console.log("setting timer");
+        //     timer = setTimeout(updateResponses, 200);
+        // }
     }
 
     function formSubmitFailed(error) {
@@ -123,12 +140,12 @@ $(document).ready(function() {
         e.preventDefault();
         var sendInfo = {
             request: getPostInput(),
-            callback_url: `${webUrl}/post_capital/`
+            callback_url: `${webUrl}/capital/`
         };
         console.log(sendInfo);
         $.ajax({
                 type: "POST",
-                url: `${webUrl}/gain-capital/`,
+                url: `${apiUrl}/capital/`,
                 data: JSON.stringify(sendInfo),
                 dataType: 'json',
                 contentType: 'application/json'

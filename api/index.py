@@ -19,7 +19,7 @@ CORS(app)
 db = {}
 
 
-@app.route("/gain-capital/", methods=["POST"])
+@app.route("/capital/", methods=["POST"])
 def gain_capital():
     try:
         req_json = request.get_json()
@@ -33,7 +33,7 @@ def gain_capital():
         response = {"request_id": req_id}
 
         resp = requests.post(
-            callback_url,
+            callback_url + str(req_id) + "/",
             json={"capital": inputs, "request_id": str(req_id)})
         if (200 <= resp.status_code < 300):
             return jsonify(response), 200
@@ -41,7 +41,8 @@ def gain_capital():
             raise Exception("Request to callback URL failed")
 
     except Exception as ex:
-        import traceback; print(traceback.format_exc(ex))
+        import traceback
+        print(traceback.format_exc(ex))
         return jsonify(message=ex.message), 500
 
 
